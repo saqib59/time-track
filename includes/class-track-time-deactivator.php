@@ -23,14 +23,14 @@
 class Track_Time_Deactivator {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
+     * Drop the custom table on plugin deactivation.
 	 *
 	 * @since    1.0.0
-	 */
+     */
 	public static function deactivate() {
-
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'track_time';
+		$sql        = "DROP TABLE IF EXISTS $table_name;";
+		$wpdb->query( $sql );
 	}
-
 }

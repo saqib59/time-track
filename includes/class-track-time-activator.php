@@ -23,14 +23,26 @@
 class Track_Time_Activator {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
+     * Create the custom table on plugin activation.
+     *
+     * @since    1.0.0
+     */
 	public static function activate() {
+		global $wpdb;
+        $table_name      = $wpdb->prefix . 'track_time';
+        $charset_collate = $wpdb->get_charset_collate();
 
+        $sql = "CREATE TABLE $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) NOT NULL,
+            page_id bigint(20) NOT NULL,
+            user_activity JSON NOT NULL,
+            PRIMARY KEY  (id)
+        ) $charset_collate;";
+
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		
+		// Create or update the table
+        dbDelta( $sql );
 	}
-
 }
