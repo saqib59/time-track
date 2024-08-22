@@ -3,7 +3,7 @@
 /**
  * Fired during plugin activation
  *
- * @link       https://https://github.com/saqib59
+ * @link      https://github.com/saqib59
  * @since      1.0.0
  *
  * @package    Track_Time
@@ -41,7 +41,7 @@ class Track_Time_Activator {
         ) $charset_collate;";
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		
+
 		// Create or update the table
         dbDelta( $sql );
 	}

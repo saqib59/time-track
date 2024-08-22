@@ -8,17 +8,17 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link    https://https://github.com/saqib59
+ * @link    https://github.com/saqib59
  * @since   1.0.0
  * @package Track_Time
  *
  * @wordpress-plugin
  * Plugin Name:       Track Time
- * Plugin URI:        https://https://github.com/saqib59/time-track
+ * Plugin URI:        https://github.com/saqib59/time-track
  * Description:       A WordPress plugin to track time spent on defined pages.
  * Version:           1.0.0
  * Author:            Saqib Ali
- * Author URI:        https://https://github.com/saqib59/
+ * Author URI:        https://github.com/saqib59/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       track-time
