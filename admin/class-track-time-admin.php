@@ -122,7 +122,7 @@ class Track_Time_Admin {
      */
     public function display_settings_page() {
         // Include the template file for the settings page
-        include plugin_dir_path( __FILE__ ) . '/templates/track-time-settings.php';
+        include plugin_dir_path( __FILE__ ) . '/partials/track-time-admin-display.php';
     }
 
 	/**
