@@ -1,31 +1,61 @@
-(function( $ ) {
-	'use strict';
-	/**
-	 * All of the code for your public-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
+document.addEventListener('DOMContentLoaded', function () {
+    
+    'use strict';
 
-})( jQuery );
+    const { ajaxUrl, nonce, currentPageId, trackedPages } = trackTime;
+    let storageKey = 'trackedPagesEmail';
+
+    // Function to start tracking time
+    function startTracking(startTime) {
+		
+        window.addEventListener('beforeunload', function () {
+            let endTime = Date.now();
+            let timeSpent = Math.round((endTime - startTime) / 1000); // Calculate time spent in seconds
+
+            let userActivity = {
+                time_spent: timeSpent,
+                date_visited: new Date().toISOString() // ISO format for date
+            };
+
+            // Prepare data to send
+            const data = new URLSearchParams({
+                action: 'track_user_activity',
+                user_email: localStorage.getItem(storageKey),
+				security: nonce, // Include nonce here
+                page_id: currentPageId,
+                user_activity: JSON.stringify(userActivity)
+            });
+
+            // Use Beacon API to send data when the user leaves the page
+            navigator.sendBeacon(ajaxUrl, data);
+        });
+    }
+
+    if (trackedPages.includes(currentPageId)) {
+        let startTime = Date.now();
+        let storedEmail = localStorage.getItem(storageKey);
+        console.log({storedEmail});
+        
+        if (storedEmail) {
+            startTracking(startTime); // Start tracking if email is already stored
+        } else {
+            let userEmail = prompt("This page is being tracked. Please enter your email:");
+
+            if (userEmail) {
+                if (validateEmail(userEmail)) {
+                    localStorage.setItem(storageKey, userEmail);
+                    alert("Thank you! Your email has been recorded.");
+                    startTracking(startTime); // Start tracking immediately after storing email
+                } else {
+                    alert("Please enter a valid email address.");
+                }
+            }
+        }
+    }
+
+	// Email validation function
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email); // Validate email format
+    }
+});

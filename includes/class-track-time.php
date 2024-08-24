@@ -121,6 +121,11 @@ class Track_Time {
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'public/class-track-time-public.php';
 
+		/**
+		 * The class responsible for handling AJAX requests for tracking time.
+		 */
+		require_once plugin_dir_path( __DIR__ ) . 'public/class-track-time-ajax.php';
+
 		$this->loader = new Track_Time_Loader();
 	}
 
@@ -170,6 +175,11 @@ class Track_Time {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+		$plugin_public_ajax = new Track_Time_Ajax( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_action( 'wp_ajax_track_user_activity', $plugin_public_ajax, 'handle_track_user_activity' );
+		$this->loader->add_action( 'wp_ajax_nopriv_track_user_activity', $plugin_public_ajax, 'handle_track_user_activity' );
 	}
 
 	/**

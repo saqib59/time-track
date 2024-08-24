@@ -44,14 +44,13 @@ class Track_Time_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $plugin_name       The name of the plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-
+		$this->version     = $version;
 	}
 
 	/**
@@ -73,8 +72,7 @@ class Track_Time_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/track-time-public.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/track-time-public.css', [], $this->version, 'all' );
 	}
 
 	/**
@@ -96,8 +94,16 @@ class Track_Time_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/track-time-public.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/track-time-public.js', [ 'jquery' ], $this->version, false );
+		wp_localize_script(
+            $this->plugin_name,
+            'trackTime',
+            [
+				'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
+				'currentPageId' => get_the_ID(),
+				'trackedPages'  => get_option( 'track_time_selected_pages' ),
+				'nonce'         => wp_create_nonce( 'track_time_nonce' ),
+			]
+		);
 	}
-
 }
