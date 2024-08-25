@@ -77,7 +77,6 @@ require plugin_dir_path(__FILE__) . 'includes/class-track-time.php';
  */
 function run_track_time()
 {
-
     $plugin = new Track_Time();
     $plugin->run();
 }
